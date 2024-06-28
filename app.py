@@ -4,6 +4,9 @@ from viktor.views import MapPolygon, MapResult, MapPoint, MapView
 
 
 class Parametrization(ViktorParametrization):
+    text_map = Text('## Map inputs')
+    map_polygon = GeoPolygonField('Draw a polygon on the map')
+    map_point = GeoPointField('Add a point to the map')
     pass
 
 
@@ -22,4 +25,8 @@ class Controller(ViktorController):
             MapPoint(-34.6037, -58.3816, title='Buenos Aires, Argentina'),
             MapPoint(-33.9249, 18.4241, title='Cape Town, South Africa')
         ]
+        if params.map_point:
+            features.append(MapPoint.from_geo_point(params.map_point, color=Color.Blue()))
+        if params.map_polygon:
+            features.append(MapPolygon.from_geo_polygon(params.map_polygon))
         return MapResult(features)
